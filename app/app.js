@@ -1,11 +1,8 @@
 const express = require("express");
+const { sum } = require("./functions")
 const app = express();
 
 const server_port = 8080;
-
-function sum(a,b) {
-  return a+b;
-}
 
 app.get("/:a/:b", (req, res) => {
     const a = parseInt(req.params["a"],10);
