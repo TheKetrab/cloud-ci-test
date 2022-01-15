@@ -23,7 +23,9 @@ jobs:
     - name: Install requirements
       working-directory: ./app
       run: npm run build --if-present
-    - run: npm test
+    - name: Test app
+      working-directory: ./app
+      run: npm test
 
   # build:
   #   name: Build
