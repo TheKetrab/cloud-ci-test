@@ -14,4 +14,4 @@ describe('sum function', function() {
   it('73+129=202', function() {
     assert.equal(202,sum(73,129));
   })
-}) 
+})
