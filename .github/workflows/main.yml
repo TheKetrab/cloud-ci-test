@@ -1,7 +1,8 @@
 
 name: Main
 
-on: push
+on: [ push ]
+#branch: main
 
 jobs:
 
