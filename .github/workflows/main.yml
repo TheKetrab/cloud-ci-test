@@ -9,54 +9,54 @@ env:
 
 jobs:
 
-  test:
-    name: Test
-    strategy:
-      matrix:
-        platform: [ubuntu-latest] # [ubuntu-latest, macos-latest, windows-latest]
-        node-version: [12.x] # [10.x, 12.x, 14.x]
-    runs-on: ${{ matrix.platform }}
-    steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install requirements
-      working-directory: ./app
-      run: npm install
-    - name: Run unit tests
-      working-directory: ./app
-      run: npm test
+  # test:
+  #   name: Test
+  #   strategy:
+  #     matrix:
+  #       platform: [ubuntu-latest] # [ubuntu-latest, macos-latest, windows-latest]
+  #       node-version: [12.x] # [10.x, 12.x, 14.x]
+  #   runs-on: ${{ matrix.platform }}
+  #   steps:
+  #   - uses: actions/checkout@v1
+  #   - name: Use Node.js ${{ matrix.node-version }}
+  #     uses: actions/setup-node@v1
+  #     with:
+  #       node-version: ${{ matrix.node-version }}
+  #   - name: Install requirements
+  #     working-directory: ./app
+  #     run: npm install
+  #   - name: Run unit tests
+  #     working-directory: ./app
+  #     run: npm test
 
-  # secrety są zapisane na koncie Github w repozytorium: Repo->Settings->Secrets
-  build:
-    name: Build
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout 
-        uses: actions/checkout@v2
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./app
-          file: ./app/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/myadd:latest
+  # # secrety są zapisane na koncie Github w repozytorium: Repo->Settings->Secrets
+  # build:
+  #   name: Build
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout 
+  #       uses: actions/checkout@v2
+  #     - name: Login to Docker Hub
+  #       uses: docker/login-action@v1
+  #       with:
+  #         username: ${{ secrets.DOCKER_HUB_USERNAME }}
+  #         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v1
+  #     - name: Build and push
+  #       uses: docker/build-push-action@v2
+  #       with:
+  #         context: ./app
+  #         file: ./app/Dockerfile
+  #         push: true
+  #         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/myadd:latest
 
 
 # https://docs.github.com/en/actions/deployment/deploying-to-your-cloud-provider/deploying-to-google-kubernetes-engine
 
   publish:
-    needs: [build]
+    #needs: [build]
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -73,6 +73,6 @@ jobs:
         location: ${{ env.GKE_ZONE }}
         credentials: ${{ secrets.GKE_SA_KEY }}
     - name: Deploy
-      run: kubectl apply -f kube.yml
+      run: kubectl apply -f kube.yaml
 
 
