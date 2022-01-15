@@ -26,15 +26,16 @@ jobs:
       working-directory: ./app
       run: npm test
 
-  # build:
-  #   name: Build
-  #   needs: test
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - name: Build the Docker image
-  #   - run: docker build -t myadd ./app
-  #   - run: docker push theketrab/myadd
+  build:
+    name: Build
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build -t myadd ./app
+    - name: Push new image to dockerhub
+      run: docker push theketrab/myadd
 
 
   # publish:
