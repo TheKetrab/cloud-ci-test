@@ -29,8 +29,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build -t myadd ./app
-      run: docker push theketrab/myadd
+    - run: docker build -t myadd ./app
+    - run: docker push theketrab/myadd
 
 
   # publish:
