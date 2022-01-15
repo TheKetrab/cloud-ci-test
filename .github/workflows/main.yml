@@ -22,10 +22,7 @@ jobs:
     - name: Install requirements
       working-directory: ./app
       run: npm install
-    #- name: Install requirements
-      # working-directory: ./app
-      # run: npm run build --if-present
-    - name: Test app
+    - name: Run unit tests
       working-directory: ./app
       run: npm test
 
