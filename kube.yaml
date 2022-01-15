@@ -1,0 +1,36 @@
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: myadd
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    run: myadd
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myadd
+spec:
+  selector:
+    matchLabels:
+      run: myadd
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: myadd
+    spec:
+      containers:
+      - name: myadd
+        image: theketrab/myadd:latest
+        ports:
+        - containerPort: 80
+

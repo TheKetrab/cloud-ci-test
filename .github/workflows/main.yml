@@ -2,7 +2,10 @@
 name: Main
 
 on: [ push ]
-#branch: main
+
+env:
+  GKE_CLUSTER: main-k8s-cluster
+  GKE_ZONE: us-east1-b
 
 jobs:
 
@@ -26,6 +29,7 @@ jobs:
       working-directory: ./app
       run: npm test
 
+  # secrety są zapisane na koncie Github w repozytorium: Repo->Settings->Secrets
   build:
     name: Build
     needs: test
@@ -49,8 +53,25 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/myadd:latest
 
 
+# https://docs.github.com/en/actions/deployment/deploying-to-your-cloud-provider/deploying-to-google-kubernetes-engine
 
-  # publish:
-  #   needs: [build]
-  #   steps:
-  #   - uses: actions/checkout@v1
+  publish:
+    needs: [build]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup gcloud CLI
+      uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
+      with:
+        service_account_key: ${{ secrets.GKE_SA_KEY }}
+        project_id: ${{ secrets.GKE_PROJECT }}
+    - name: Get Google Kubernetes Engine credentials
+      uses: google-github-actions/get-gke-credentials@fb08709ba27618c31c09e014e1d8364b02e5042e
+      with:
+        cluster_name: ${{ env.GKE_CLUSTER }}
+        location: ${{ env.GKE_ZONE }}
+        credentials: ${{ secrets.GKE_SA_KEY }}
+    - name: Deploy
+      run: kubectl apply -f kube.yml
+
+
