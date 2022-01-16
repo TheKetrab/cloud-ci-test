@@ -57,6 +57,7 @@ jobs:
   # https://docs.github.com/en/actions/deployment/deploying-to-your-cloud-provider/deploying-to-google-kubernetes-engine
 
   publish:
+    name: Publish to GCP k8s
     needs: [build]
     runs-on: ubuntu-latest
     steps:
