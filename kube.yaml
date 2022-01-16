@@ -31,6 +31,7 @@ spec:
       containers:
       - name: myadd
         image: theketrab/myadd:latest
+        imagePullPolicy: Always # dzięki temu zawsze pobierany jest najnowszy obraz z dockerhuba
         ports:
         - containerPort: 80
 
