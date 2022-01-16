@@ -8,6 +8,7 @@ app.get("/:a/:b", (req, res) => {
     const a = parseInt(req.params["a"],10);
     const b = parseInt(req.params["b"],10);
     res.send(`${a} + ${b} = ${sum(a,b)} (version 4)`)
+    console.log(`GET ${a} ${b}`)
 });
 
 app.listen(server_port, () => console.log(`app listening on port ${server_port}`));
