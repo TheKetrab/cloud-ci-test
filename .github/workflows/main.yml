@@ -4,7 +4,7 @@ name: Main
 on: [ push ]
 
 env:
-  GKE_CLUSTER: main-k8s-cluster
+  GKE_CLUSTER: main-k8s-cluster-l6
   GKE_ZONE: us-east1-b
   DEPLOYMENT_NAME: myadd
 
